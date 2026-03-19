@@ -1,10 +1,11 @@
 create or replace view sandbox.durdapilletadelaparra.all_nsfs as
 select
     loan_id,
-    transaction_id,
+    ario_transaction_id,
+    tk_transaction_id,
     posted_date,
     amount,
-    resolved,
+    platform_resolved,
     description,
     resolved_date,
     is_first_nsf,

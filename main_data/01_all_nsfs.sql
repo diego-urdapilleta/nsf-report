@@ -2,7 +2,7 @@ create or replace view sandbox.durdapilletadelaparra.all_nsfs_1 as
 with ario_nsfs as (
     select
         money_transfer_id,
-        iff(state='RESOLVED', TRUE, FALSE) as resolved,
+        iff(state='RESOLVED', TRUE, FALSE) as platform_resolved,
         description,
         amount,
         created_at,
@@ -45,9 +45,9 @@ ario_full as (
         tk_transaction_guid as tk_transaction_id,
         lt.posted_date,
         amounts.amount,
-        a.resolved,
+        a.platform_resolved,
         a.description,
-        iff(a.resolved, a.updated_at, null) as resolved_date,
+        iff(a.platform_resolved, a.updated_at, null) as resolved_date,
         'Ario' as nsf_source
     from
         ario_nsfs a
@@ -66,7 +66,7 @@ tk_full as (
         f.transaction_guid as tk_transaction_id,
         f.effective_date as posted_date,
         f.effective_amount as amount,
-        f.is_nsf_resolved as resolved,
+        f.is_nsf_resolved as platform_resolved,
         f.description,
         iff(f.is_nsf_resolved, coalesce(t.resolved_date, t.updated_date), null) as resolved_date,
         'Turnkey' as nsf_source

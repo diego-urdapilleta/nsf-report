@@ -9,7 +9,8 @@ where
 union all
 select
     loan_id,
-    transaction_id,
+    ario_transaction_id,
+    tk_transaction_id,
     posted_date,
     amount,
     null as resolved,
@@ -21,7 +22,8 @@ select
 from (
     select
         coalesce(loan_guid, correlation_id) as loan_id,
-        max(coalesce(tk_transaction_guid, correlation_guid)) as transaction_id,
+        max(correlation_guid) as ario_transaction_id,
+        max(tk_transaction_guid) as tk_transaction_id,
         sum(debit_amount) as amount,
         date_trunc(day,posted_at)::date as posted_date
     from
