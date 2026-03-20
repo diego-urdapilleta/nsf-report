@@ -78,6 +78,7 @@ tk_full as (
             on f.transaction_guid = lt.tk_transaction_guid
     where
         f.created_at > '2023-01-01'
+    qualify row_number() over (partition by f.transaction_guid order by f.effective_date) = 1
 ),
 final_nsfs as (
     select * from ario_full
